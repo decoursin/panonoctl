@@ -3,6 +3,15 @@ panonoctl
 
 Python API to interact with the [PANONO](https://www.panono.com) 360-camera.
 
+Install
+=======
+
+To install, execute:
+
+```
+pip install panonoctl
+```
+
 Documentation
 =============
 
