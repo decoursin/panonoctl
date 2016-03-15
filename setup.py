@@ -31,6 +31,5 @@ setup(
     classifiers=[   'Development Status :: 4 - Beta',
                     'Intended Audience :: Developers'
                 ],
-    license = 'Apache License 2.0',
-    setup_requires= 'nose'
+    license = 'Apache License 2.0'
 )
