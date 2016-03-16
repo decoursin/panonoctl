@@ -28,6 +28,10 @@ class panono:
         self.ws = websocket.create_connection("ws://" + self.ip + ":" + self.port + "/" + self.path)
         return
 
+    def disconnect(self):
+        self.ws.close()
+        return
+
     def askForUpfs(self):
         upf = []
         self.ws.send("{\"id\":"+str(self.count)+",\"method\":\"get_upf_infos\",\"jsonrpc\":\"2.0\"}")
