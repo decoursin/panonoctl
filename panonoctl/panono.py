@@ -62,6 +62,13 @@ class panono:
         rep = json.loads(response)
         return rep
 
+    def capture(self):
+        self.ws.send("{\"id\":"+str(self.count)+",\"method\":\"capture\",\"jsonrpc\":\"2.0\"}")
+        self.count = self.count + 1
+        response = self.ws.recv()
+        rep = json.loads(response)
+        return rep
+
     def __auth(self):
         self.ws.send("{\"id\":"+str(self.count)+",\"method\":\"auth\",\"params\":{\"device\":\"test\",\"force\":true},\"jsonrpc\":\"2.0\"}")
         self.count = self.count + 1
