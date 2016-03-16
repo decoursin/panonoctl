@@ -16,11 +16,20 @@ Documentation
 =============
 
 ### Connect
-
 ```python
 >>> from panonoctl import panono
 >>> cam = panono()
 >>> cam.connect()
+```
+
+### Take a Picture
+```python
+>>> cam.capture()
+```
+
+### Disconnect
+```python
+>>> cam.disconnect()
 ```
 
 License
