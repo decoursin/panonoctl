@@ -13,7 +13,17 @@
 # the License.
 
 import websocket
-import json
+import simplejson as json
+
+def __execute_request__(websocket=None, data=None):
+    if data == None:
+        return None
+    print data
+    try:
+        websocket.send(data)
+    except:
+        print "An error occured"
+        return None
 
 class panono:
 
@@ -46,42 +56,50 @@ class panono:
         return upf
 
     def deleteUpf(self, upf=None):
-        self.ws.send("{\"id\":"+str(self.count)+",\"method\":\"delete_upf\",\"params\":{\"image_id\":\""+str(upf)+"\"},\"jsonrpc\":\"2.0\"}")
+        if upf == None:
+            return None
+        data = json.dumps({"id":self.count, "method":"delte_upf", "parameters":{"image_id":upf},"jsonrpc":"2.0"})
+        __execute_request__(self.ws, data)
         self.count = self.count + 1
         response = self.ws.recv()
         rep = json.loads(response)
         return rep
 
     def getStatus(self):
-        self.ws.send("{\"id\":"+str(self.count)+",\"method\":\"get_status\",\"jsonrpc\":\"2.0\"}")
+        data = json.dumps({"id":self.count, "method":"get_status", "jsonrpc":"2.0"})
+        __execute_request__(self.ws, data)
         self.count = self.count + 1
         response = self.ws.recv()
         rep = json.loads(response)
         return rep
 
     def getOptions(self):
-        self.ws.send("{\"id\":"+str(self.count)+",\"method\":\"get_options\",\"jsonrpc\":\"2.0\"}")
+        data = json.dumps({"id":self.count, "method":"get_options", "jsonrpc":"2.0"})
+        __execute_request__(self.ws, data)
         self.count = self.count + 1
         response = self.ws.recv()
         rep = json.loads(response)
         return rep
 
     def capture(self):
-        self.ws.send("{\"id\":"+str(self.count)+",\"method\":\"capture\",\"jsonrpc\":\"2.0\"}")
+        data = json.dumps({"id":self.count, "method":"capture", "jsonrpc":"2.0"})
+        __execute_request__(self.ws, data)
         self.count = self.count + 1
         response = self.ws.recv()
         rep = json.loads(response)
         return rep
 
     def __auth(self):
-        self.ws.send("{\"id\":"+str(self.count)+",\"method\":\"auth\",\"params\":{\"device\":\"test\",\"force\":true},\"jsonrpc\":\"2.0\"}")
+        data = json.dumps({"id":self.count, "method":"auth", "parameters":{"device":"test","force":"test"},"jsonrpc":"2.0"})
+        __execute_request__(self.ws, data)
         self.count = self.count + 1
         response = self.ws.recv()
         rep = json.loads(response)
         return rep
 
     def __getAuthToken(self):
-        self.ws.send("{\"id\":"+str(self.count)+",\"method\":\"get_auth_token\",\"params\":{\"device\":\"test\",\"force\":true},\"jsonrpc\":\"2.0\"}")
+        data = json.dumps({"id":self.count, "method":"get_auth_token", "parameters":{"device":"test","force":"test"},"jsonrpc":"2.0"})
+        __execute_request__(self.ws, data)
         self.count = self.count + 1
         response = self.ws.recv()
         rep = json.loads(response)
