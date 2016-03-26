@@ -28,6 +28,14 @@ def __execute_request__(websocket=None, data=None):
 class panono:
 
     def __init__(self, ip="192.168.80.80", port="12345", path="8086"):
+        """
+
+        Your Panono camera
+
+        :param ip:      IP of the device you want to connect to
+        :param port:    Port you want to connect to
+        :param path:    Path you want to connect to
+        """
         self.ip     = ip
         self.port   = port
         self.path   = path
@@ -35,14 +43,30 @@ class panono:
         self.count  = 1
 
     def connect(self):
+        """
+
+        Opens a connection
+
+        """
         self.ws = websocket.create_connection("ws://" + self.ip + ":" + self.port + "/" + self.path)
         return
 
     def disconnect(self):
+        """
+
+        Close a connection
+
+        """
         self.ws.close()
         return
 
     def askForUpfs(self):
+        """
+
+        Get a list of upfs from your Panono.
+
+        Returns a list of URLs you can use to get the upfs.
+        """
         upf = []
         self.ws.send("{\"id\":"+str(self.count)+",\"method\":\"get_upf_infos\",\"jsonrpc\":\"2.0\"}")
         self.count = self.count + 1
@@ -55,7 +79,27 @@ class panono:
                         upf.append(captures['upf_url'])
         return upf
 
+    def getUpfs(self):
+        """
+
+        Get information about all upfs from your Panono.
+
+        Returns all information about all upfs on your Panono.
+        """
+        upf = []
+        self.ws.send("{\"id\":"+str(self.count)+",\"method\":\"get_upf_infos\",\"jsonrpc\":\"2.0\"}")
+        self.count = self.count + 1
+        response = self.ws.recv()
+        rep = json.loads(response)
+        return rep
+
     def deleteUpf(self, upf=None):
+        """
+
+        Delete one upd
+
+        :param upf:     The upf to delete
+        """
         if upf == None:
             return None
         data = json.dumps({"id":self.count, "method":"delte_upf", "parameters":{"image_id":upf},"jsonrpc":"2.0"})
@@ -66,6 +110,13 @@ class panono:
         return rep
 
     def getStatus(self):
+        """
+
+        Get the status of your Panono.
+
+        This includes the version of the firmware, the device_id,
+        current state of the battery and more.
+        """
         data = json.dumps({"id":self.count, "method":"get_status", "jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
         self.count = self.count + 1
@@ -74,6 +125,12 @@ class panono:
         return rep
 
     def getOptions(self):
+        """
+
+        Get the options of your Panono.
+
+        This includes the color temperature and the image type.
+        """
         data = json.dumps({"id":self.count, "method":"get_options", "jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
         self.count = self.count + 1
@@ -82,6 +139,11 @@ class panono:
         return rep
 
     def capture(self):
+        """
+
+        Capture a photo with your Panono.
+
+        """
         data = json.dumps({"id":self.count, "method":"capture", "jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
         self.count = self.count + 1
@@ -97,7 +159,12 @@ class panono:
         rep = json.loads(response)
         return rep
 
-    def __getAuthToken(self):
+    def getAuthToken(self):
+        """
+
+        Request a token for authentication from your Panono.
+
+        """
         data = json.dumps({"id":self.count, "method":"get_auth_token", "parameters":{"device":"test","force":"test"},"jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
         self.count = self.count + 1
