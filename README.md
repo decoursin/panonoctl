@@ -27,6 +27,24 @@ Documentation
 >>> cam.capture()
 ```
 
+### Get the status of your Panono.
+```python
+>>> cam.getStatus()
+```
+Returns a JSON object.
+
+### Get the options of your Panono.
+```python
+>>> cam.getOptions()
+```
+Returns a JSON object.
+
+### Get the UPFs (Unstitched Panorama Format) from your Panono.
+```python
+>>> cam.getUpfs()
+```
+Returns a JSON object. 
+
 ### Disconnect
 ```python
 >>> cam.disconnect()
