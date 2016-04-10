@@ -15,6 +15,8 @@
 import websocket
 import simplejson as json
 
+from ssdp import ssdpNotify as ssdp
+
 def __execute_request__(websocket=None, data=None):
     if data == None:
         return None
@@ -27,7 +29,7 @@ def __execute_request__(websocket=None, data=None):
 
 class panono:
 
-    def __init__(self, ip="192.168.80.80", port="12345", path="8086"):
+    def __init__(self, ip=None, port=None, path=None):
         """
 
         Your Panono camera
@@ -48,8 +50,13 @@ class panono:
         Opens a connection
 
         """
+        # Let us discover, where we need to connect to
+        if self.ip == None or self.port == None or self.path == None:
+            self.ip, self.port, self.path = ssdp.discover(None)
+        if self.ip == None or self.port == None or self.path == None:
+            return False
         self.ws = websocket.create_connection("ws://" + self.ip + ":" + self.port + "/" + self.path)
-        return
+        return True
 
     def disconnect(self):
         """
