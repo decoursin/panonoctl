@@ -50,12 +50,19 @@ class panono:
         Opens a connection
 
         """
+        ws = None
         # Let us discover, where we need to connect to
-        if self.ip == None or self.port == None or self.path == None:
-            self.ip, self.port, self.path = ssdp.discover(None)
-        if self.ip == None or self.port == None or self.path == None:
+        if self.ip == None or self.port == None:
+            ws = ssdp.discover(None)
+        else:
+            ws = "ws://%s" % self.ip
+            if not self.port is None:
+                ws = "{}:{}".format(ws, self.port)
+            if not self.path is None:
+                ws = "{}/{}".format(ws, self.path)
+        if ws == None:
             return False
-        self.ws = websocket.create_connection("ws://" + self.ip + ":" + self.port + "/" + self.path)
+        self.ws = websocket.create_connection(ws)
         return True
 
     def disconnect(self):

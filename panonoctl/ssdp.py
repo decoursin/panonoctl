@@ -16,6 +16,16 @@ import socket
 import struct
 
 class ssdpNotify:
+    def getLocation(self, data):
+        ws = None
+        lines = data.split("\r\n")
+        for line in lines:
+            if line.startswith("LOCATION:"):
+                content = line.split(" ")
+                ws = content[1]
+                break
+        return ws
+
     @staticmethod
     def discover(self):
         req =  ('M-SEARCH * HTTP/1.1\r\n' +
@@ -24,29 +34,28 @@ class ssdpNotify:
                 'MAN: \"ssdp:discover\"\r\n' +
                 'NT: panono:ball-camera\r\n' +
                 '\r\n')
-        ip = None
-        port = None
-        path = None
+        ws = None
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
         sock.settimeout(7)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 2)
         mcast = struct.pack('4sL', socket.inet_aton('239.255.255.250') , socket.INADDR_ANY)
         sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mcast)
-        sock.bind(('239.255.255.250', 1900))
+        sock.bind(('', 1900))
+        try:
+            sock.sendto( req, ('239.255.255.250', 1900))
+        except socket.error as e:
+            print e
+            return (None, None, None)
         for _ in range(5):
             try:
-                sock.sendto( req, ('239.255.255.250', 1900))
+                data, addr = sock.recvfrom(1024)
+                if not data: continue
+                ws = ssdpNotify().getLocation(data)
+                if ws is None: continue
+                break
             except socket.error as e:
                 print e
-                return (None, None, None)
-            while True:
-                try:
-                    data, addr = sock.recvfrom(1024)#.decode('utf-8')
-                    if not data: continue
-                    print data
-                except socket.error as e:
-                    print e
-                    break
+                break
         sock.close()
-        return (ip, port, path)
+        return ws
