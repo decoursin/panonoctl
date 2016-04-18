@@ -22,6 +22,12 @@ Documentation
 >>> cam.connect()
 ```
 
+### Authenticate
+```python
+>>> cam.auth()
+```
+You need to authenticate. Otherwise your commands will _not_ be executed.
+
 ### Take a Picture
 ```python
 >>> cam.capture()
@@ -43,7 +49,7 @@ Returns a JSON object.
 ```python
 >>> cam.getUpfs()
 ```
-Returns a JSON object. 
+Returns a JSON object.
 
 ### Disconnect
 ```python

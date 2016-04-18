@@ -165,7 +165,7 @@ class panono:
         rep = json.loads(response)
         return rep
 
-    def __auth(self):
+    def auth(self):
         data = json.dumps({"id":self.count, "method":"auth", "parameters":{"device":"test","force":"test"},"jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
         self.count = self.count + 1
