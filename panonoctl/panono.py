@@ -185,3 +185,23 @@ class panono:
         response = self.ws.recv()
         rep = json.loads(response)
         return rep
+
+    def experimental(self, cmd=None, payload=None):
+        """
+
+        Send your own command to your Panono.
+
+        :param cmd:         The command to execute
+        :param payload:     The payload, a json object, of your command
+        """
+        if cmd == None:
+            return None
+        if payload == None:
+            data = json.dumps({"id":self.count, "method":cmd, "jsonrpc":"2.0"})
+        else:
+            data = json.dumps({"id":self.count, "method":cmd, "parameters":payload, "jsonrpc":"2.0"})
+        __execute_request__(self.ws, data)
+        self.count = self.count + 1
+        response = self.ws.recv()
+        rep = json.loads(response)
+        return rep

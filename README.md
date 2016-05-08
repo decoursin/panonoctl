@@ -56,6 +56,10 @@ Returns a JSON object.
 >>> cam.disconnect()
 ```
 
+### Other Features
+[PANONO](https://www.panono.com) provides more features, than those listed above.
+If you are interested in trying your own commands take a look [here](Experimental.md) for further information.
+
 License
 =======
 
