@@ -14,12 +14,15 @@
 
 from setuptools import setup, find_packages
 
+with open('README.md') as f:
+    readme = f.read()
+
 setup(
     name='panonoctl',
     version='0.3',
     py_modules=['panonoctl'],
     packages=find_packages(),
-    long_description=open('README.md').read(),
+    long_description=readme,
     include_package_data=True,
     description = 'Python API to interact with the PANONO 360-camera',
     author = 'Florian Lehner',
