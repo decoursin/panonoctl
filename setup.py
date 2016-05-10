@@ -30,7 +30,7 @@ setup(
     url = 'https://github.com/florianl/panonoctl/',
     download_url = 'https://github.com/florianl/panonoctl/archive/master.tar.gz',
     keywords = ['Panono', 'API '],
-    install_requires=['websocket', 'simplejson', 'socket', 'struct'],
+    install_requires=['websocket', 'simplejson', 'socket'],
     classifiers=[   'Development Status :: 4 - Beta',
                     'Intended Audience :: Developers'
                 ],
