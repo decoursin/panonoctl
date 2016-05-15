@@ -19,7 +19,7 @@ with open('README.md') as f:
 
 setup(
     name='panonoctl',
-    version='0.4.1',
+    version='0.4.2',
     py_modules=['panonoctl'],
     packages=find_packages(),
     long_description=readme,
