@@ -116,7 +116,7 @@ class panono:
         """
         if upf == None:
             return None
-        data = json.dumps({"id":self.count, "method":"delte_upf", "parameters":{"image_id":upf},"jsonrpc":"2.0"})
+        data = json.dumps({"id":self.count, "method":"delete_upf", "parameters":{"image_id":upf},"jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
         self.count = self.count + 1
         response = self.ws.recv()
