@@ -116,7 +116,7 @@ class panono:
         """
         if upf == None:
             return None
-        data = json.dumps({"id":self.count, "method":"delete_upf", "parameters":{"image_id":upf},"jsonrpc":"2.0"})
+        data = json.dumps({"id":self.count, "method":"delete_upf", "params":{"image_id":upf},"jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
         self.count = self.count + 1
         response = self.ws.recv()
@@ -166,7 +166,7 @@ class panono:
         return rep
 
     def auth(self):
-        data = json.dumps({"id":self.count, "method":"auth", "parameters":{"device":"test","force":"test"},"jsonrpc":"2.0"})
+        data = json.dumps({"id":self.count, "method":"auth", "params":{"device":"test","force":"test"},"jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
         self.count = self.count + 1
         response = self.ws.recv()
@@ -179,7 +179,7 @@ class panono:
         Request a token for authentication from your Panono.
 
         """
-        data = json.dumps({"id":self.count, "method":"get_auth_token", "parameters":{"device":"test","force":"test"},"jsonrpc":"2.0"})
+        data = json.dumps({"id":self.count, "method":"get_auth_token", "params":{"device":"test","force":"test"},"jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
         self.count = self.count + 1
         response = self.ws.recv()
@@ -199,7 +199,7 @@ class panono:
         if payload == None:
             data = json.dumps({"id":self.count, "method":cmd, "jsonrpc":"2.0"})
         else:
-            data = json.dumps({"id":self.count, "method":cmd, "parameters":payload, "jsonrpc":"2.0"})
+            data = json.dumps({"id":self.count, "method":cmd, "params":payload, "jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
         self.count = self.count + 1
         response = self.ws.recv()
