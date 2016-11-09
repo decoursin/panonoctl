@@ -42,6 +42,9 @@ class panono:
         self.port   = port
         self.path   = path
         self.ws     = None
+        self.usn    = None
+        self.apiV   = None
+        self.srv    = None
         self.count  = 1
 
     def connect(self):
@@ -53,7 +56,7 @@ class panono:
         ws = None
         # Let us discover, where we need to connect to
         if self.ip == None or self.port == None:
-            ws = ssdp.discover(None)
+            (ws, self.usn, self.apiV, self.srv) = ssdp.discover(None)
         else:
             ws = "ws://%s" % self.ip
             if not self.port is None:
@@ -73,6 +76,24 @@ class panono:
         """
         self.ws.close()
         return
+
+    def getApiVersion(self):
+        """
+        Returns the API version
+        """
+        return self.apiV
+
+    def getUsn(self):
+        """
+        Returns the USN
+        """
+        return self.usn
+
+    def getServer(self):
+        """
+        Returns the server
+        """
+        return self.srv
 
     def askForUpfs(self):
         """

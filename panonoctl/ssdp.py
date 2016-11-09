@@ -26,8 +26,42 @@ class ssdpNotify:
                 break
         return ws
 
+    def getApiVersion(self, data):
+        vers = None
+        lines = data.split("\r\n")
+        for line in lines:
+            if line.startswith("APIVERSION:"):
+                content = line.split(" ")
+                vers = content[1]
+                break
+        return vers
+
+    def getUsn(self, data):
+        usn = None
+        lines = data.split("\r\n")
+        for line in lines:
+            if line.startswith("USN:"):
+                content = line.split(" ")
+                usn = content[1]
+                break
+        return usn
+
+    def getSrv(self, data):
+        srv = None
+        lines = data.split("\r\n")
+        for line in lines:
+            if line.startswith("SERVER:"):
+                content = line.split(" ")
+                srv = content[1]
+                break
+        return srv
+
     @staticmethod
     def discover(self):
+        ws      = None
+        usn     = None
+        apiV    = None
+        srv     = None
         req =  ('M-SEARCH * HTTP/1.1\r\n' +
                 'MX: 10\r\n' +
                 'HOST: 239.255.255.250:1900\r\n' +
@@ -53,9 +87,12 @@ class ssdpNotify:
                 if not data: continue
                 ws = ssdpNotify().getLocation(data)
                 if ws is None: continue
+                usn = ssdpNotify().getUsn(data)
+                apiV = ssdpNotify().getApiVersion(data)
+                srv = ssdpNotify().getSrv(data)
                 break
             except socket.error as e:
                 print e
                 break
         sock.close()
-        return ws
+        return (ws, usn, apiV, srv)
