@@ -15,6 +15,9 @@ pip install panonoctl
 Documentation
 =============
 
+### Status
+[panonoctl](https://github.com/florianl/panonoctl) is tested under API version 3.8.
+
 ### Connect
 ```python
 >>> from panonoctl import panono

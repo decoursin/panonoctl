@@ -27,6 +27,20 @@ def __execute_request__(websocket=None, data=None):
         print "An error occured"
         return None
 
+def __check_response__(websocket=None, count=0):
+    for _ in range(5):
+        try:
+            response = websocket.recv()
+            rep = json.loads(response)
+            if "error" in rep:
+                return rep
+            if "id" in rep:
+                if rep["id"] == count:
+                    return rep
+        except:
+            print "An error occured"
+            return None
+
 class panono:
 
     def __init__(self, ip=None, port=None, path=None):
@@ -95,25 +109,6 @@ class panono:
         """
         return self.srv
 
-    def askForUpfs(self):
-        """
-
-        Get a list of upfs from your Panono.
-
-        Returns a list of URLs you can use to get the upfs.
-        """
-        upf = []
-        self.ws.send("{\"id\":"+str(self.count)+",\"method\":\"get_upf_infos\",\"jsonrpc\":\"2.0\"}")
-        self.count = self.count + 1
-        response = self.ws.recv()
-        rep = json.loads(response)
-        for key in rep:
-            if key == "result":
-                for captures in rep["result"]["upf_infos"]:
-                    for capture in captures:
-                        upf.append(captures['upf_url'])
-        return upf
-
     def getUpfs(self):
         """
 
@@ -121,11 +116,10 @@ class panono:
 
         Returns all information about all upfs on your Panono.
         """
-        upf = []
-        self.ws.send("{\"id\":"+str(self.count)+",\"method\":\"get_upf_infos\",\"jsonrpc\":\"2.0\"}")
+        data = json.dumps({"id":self.count, "method":"get_upf_infos", "jsonrpc":"2.0"})
+        __execute_request__(self.ws, data)
+        rep = __check_response__(self.ws, self.count)
         self.count = self.count + 1
-        response = self.ws.recv()
-        rep = json.loads(response)
         return rep
 
     def deleteUpf(self, upf=None):
@@ -139,9 +133,8 @@ class panono:
             return None
         data = json.dumps({"id":self.count, "method":"delete_upf", "params":{"image_id":upf},"jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
+        rep = __check_response__(self.ws, self.count)
         self.count = self.count + 1
-        response = self.ws.recv()
-        rep = json.loads(response)
         return rep
 
     def getStatus(self):
@@ -154,9 +147,8 @@ class panono:
         """
         data = json.dumps({"id":self.count, "method":"get_status", "jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
+        rep = __check_response__(self.ws, self.count)
         self.count = self.count + 1
-        response = self.ws.recv()
-        rep = json.loads(response)
         return rep
 
     def getOptions(self):
@@ -168,9 +160,8 @@ class panono:
         """
         data = json.dumps({"id":self.count, "method":"get_options", "jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
+        rep = __check_response__(self.ws, self.count)
         self.count = self.count + 1
-        response = self.ws.recv()
-        rep = json.loads(response)
         return rep
 
     def capture(self):
@@ -181,17 +172,15 @@ class panono:
         """
         data = json.dumps({"id":self.count, "method":"capture", "jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
+        rep = __check_response__(self.ws, self.count)
         self.count = self.count + 1
-        response = self.ws.recv()
-        rep = json.loads(response)
         return rep
 
     def auth(self):
         data = json.dumps({"id":self.count, "method":"auth", "params":{"device":"test","force":"test"},"jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
+        rep = __check_response__(self.ws, self.count)
         self.count = self.count + 1
-        response = self.ws.recv()
-        rep = json.loads(response)
         return rep
 
     def getAuthToken(self):
@@ -202,9 +191,8 @@ class panono:
         """
         data = json.dumps({"id":self.count, "method":"get_auth_token", "params":{"device":"test","force":"test"},"jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
+        rep = __check_response__(self.ws, self.count)
         self.count = self.count + 1
-        response = self.ws.recv()
-        rep = json.loads(response)
         return rep
 
     def experimental(self, cmd=None, payload=None):
@@ -222,7 +210,6 @@ class panono:
         else:
             data = json.dumps({"id":self.count, "method":cmd, "params":payload, "jsonrpc":"2.0"})
         __execute_request__(self.ws, data)
+        rep = __check_response__(self.ws, self.count)
         self.count = self.count + 1
-        response = self.ws.recv()
-        rep = json.loads(response)
         return rep
