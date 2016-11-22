@@ -19,7 +19,7 @@ with open('README.md') as f:
 
 setup(
     name='panonoctl',
-    version='0.5',
+    version='0.5.1',
     py_modules=['panonoctl'],
     packages=find_packages(),
     long_description=readme,
@@ -30,7 +30,7 @@ setup(
     url = 'https://github.com/florianl/panonoctl/',
     download_url = 'https://github.com/florianl/panonoctl/archive/master.tar.gz',
     keywords = ['Panono', 'API '],
-    install_requires=['websocket', 'simplejson'],
+    install_requires=['websocket-client', 'simplejson'],
     classifiers=[   'Development Status :: 4 - Beta',
                     'Intended Audience :: Developers'
                 ],
