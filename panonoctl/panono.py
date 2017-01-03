@@ -15,16 +15,16 @@
 import websocket
 import simplejson as json
 
-from ssdp import ssdpNotify as ssdp
+from .ssdp import ssdpNotify as ssdp
 
 def __execute_request__(websocket=None, data=None):
     if data == None:
         return None
-    print data
+    print(data)
     try:
         websocket.send(data)
     except:
-        print "An error occured"
+        print("An error occured")
         return None
 
 def __check_response__(websocket=None, count=0):
@@ -38,7 +38,7 @@ def __check_response__(websocket=None, count=0):
                 if rep["id"] == count:
                     return rep
         except:
-            print "An error occured"
+            print("An error occured")
             return None
 
 class panono:

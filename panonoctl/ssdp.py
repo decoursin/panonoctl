@@ -18,7 +18,7 @@ import struct
 class ssdpNotify:
     def getLocation(self, data):
         ws = None
-        lines = data.split("\r\n")
+        lines = data.decode().split("\r\n")
         for line in lines:
             if line.startswith("LOCATION:"):
                 content = line.split(" ")
@@ -28,7 +28,7 @@ class ssdpNotify:
 
     def getApiVersion(self, data):
         vers = None
-        lines = data.split("\r\n")
+        lines = data.decode().split("\r\n")
         for line in lines:
             if line.startswith("APIVERSION:"):
                 content = line.split(" ")
@@ -38,7 +38,7 @@ class ssdpNotify:
 
     def getUsn(self, data):
         usn = None
-        lines = data.split("\r\n")
+        lines = data.decode().split("\r\n")
         for line in lines:
             if line.startswith("USN:"):
                 content = line.split(" ")
@@ -48,7 +48,7 @@ class ssdpNotify:
 
     def getSrv(self, data):
         srv = None
-        lines = data.split("\r\n")
+        lines = data.decode().split("\r\n")
         for line in lines:
             if line.startswith("SERVER:"):
                 content = line.split(" ")
@@ -77,9 +77,9 @@ class ssdpNotify:
         sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mcast)
         sock.bind(('', 1900))
         try:
-            sock.sendto( req, ('239.255.255.250', 1900))
+            sock.sendto( req.encode(), ('239.255.255.250', 1900))
         except socket.error as e:
-            print e
+            print(e)
             return (None, None, None)
         for _ in range(5):
             try:
@@ -92,7 +92,7 @@ class ssdpNotify:
                 srv = ssdpNotify().getSrv(data)
                 break
             except socket.error as e:
-                print e
+                print(e)
                 break
         sock.close()
         return (ws, usn, apiV, srv)
