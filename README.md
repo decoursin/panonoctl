@@ -16,7 +16,7 @@ Documentation
 =============
 
 ### Status
-[panonoctl](https://github.com/florianl/panonoctl) is tested under API version 3.8.
+[panonoctl](https://github.com/florianl/panonoctl) is tested under API version 3.12.
 
 ### Connect
 ```python

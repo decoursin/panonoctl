@@ -24,21 +24,26 @@ def __execute_request__(websocket=None, data=None):
     try:
         websocket.send(data)
     except:
-        print("An error occured")
+        print("An error occured on sending")
         return None
 
 def __check_response__(websocket=None, count=0):
-    for _ in range(5):
+    while True:
         try:
             response = websocket.recv()
             rep = json.loads(response)
             if "error" in rep:
                 return rep
-            if "id" in rep:
+            elif "id" in rep:
                 if rep["id"] == count:
                     return rep
+            elif rep["method"] == "status_update":
+                continue
+            else:
+                # Unknown return
+                return rep
         except:
-            print("An error occured")
+            print("An error occured on receiving")
             return None
 
 class panono:
