@@ -13,13 +13,17 @@
 # the License.
 
 from setuptools import setup, find_packages
+import re
 
 with open('README.md') as f:
     readme = f.read()
 
+with open('panonoctl/__init__.py', 'r') as fd:
+    versionNr = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', fd.read(), re.MULTILINE).group(1)
+
 setup(
     name='panonoctl',
-    version='0.6',
+    version=versionNr,
     py_modules=['panonoctl'],
     packages=find_packages(),
     long_description=readme,
@@ -32,7 +36,8 @@ setup(
     keywords = ['Panono', 'API '],
     install_requires=['websocket-client', 'simplejson'],
     classifiers=[   'Development Status :: 4 - Beta',
-                    'Intended Audience :: Developers'
+                    'Intended Audience :: Developers',
+                    'Programming Language :: Python'
                 ],
     license = 'Apache License 2.0'
 )
