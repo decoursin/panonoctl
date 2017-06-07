@@ -16,7 +16,7 @@ Documentation
 =============
 
 ### Status
-[panonoctl](https://github.com/florianl/panonoctl) is tested under API version 4.20 with firmware 4.1.846.
+[panonoctl](https://github.com/florianl/panonoctl) is tested under API version 4.23 with firmware 4.2.873.
 
 ### Connect
 ```python
