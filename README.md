@@ -18,6 +18,9 @@ Documentation
 ### Status
 [panonoctl](https://github.com/florianl/panonoctl) is tested under API version 4.23 with firmware 4.2.873.
 
+### Example Script
+A very basic script, which downloads all UPFs from your [PANONO](https://www.panono.com) can be found in [getAllUpfs.py](getAllUpfs.py).
+
 ### Connect
 ```python
 >>> from panonoctl import panono
